@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff" id="tema">
+<meta name="robots" content="noindex">
+<title>Inicio</title>
+<style>
+:root{color-scheme:light;--t:#202124;--sec:#70757a;--borde:#dfe1e5}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#fff;color:var(--t);font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+main{min-height:100%;display:flex;flex-direction:column;align-items:center;padding:22vh 18px 40px}
+.hora{font-size:15px;color:var(--sec);margin-bottom:26px;letter-spacing:.02em}
+form{width:100%;max-width:560px}
+.caja{display:flex;align-items:center;gap:12px;height:50px;border:1px solid var(--borde);border-radius:25px;padding:0 18px;box-shadow:0 1px 6px rgba(32,33,36,.12)}
+.caja:focus-within{box-shadow:0 1px 8px rgba(32,33,36,.24);border-color:transparent}
+.caja svg{width:20px;height:20px;fill:none;stroke:#9aa0a6;stroke-width:2;stroke-linecap:round;flex:none}
+input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:17px;color:var(--t);background:none;-webkit-appearance:none}
+input::-webkit-search-cancel-button{display:none}
+.atajos{display:grid;grid-template-columns:repeat(4,64px);gap:18px 16px;justify-content:center;margin-top:34px}
+.atajos a{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;color:var(--t);text-decoration:none}
+.atajos span{width:52px;height:52px;border-radius:14px;background:#f1f3f4;display:flex;align-items:center;justify-content:center;font-weight:600;color:#5f6368;font-size:19px}
+#negro{position:fixed;inset:0;background:#000;z-index:9;display:none}
+body.negro #negro{display:block}
+@media (prefers-color-scheme:dark){:root{--t:#e8eaed;--sec:#9aa0a6;--borde:#5f6368}html,body{background:#202124}.atajos span{background:#303134;color:#bdc1c6}}
+/* modo foto: una cámara instantánea que revela la foto poco a poco */
+body.foto main{display:none}
+#revelado{display:none;min-height:100%;background:#1b1714;color:#efe6d8;flex-direction:column;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 34px) 22px calc(env(safe-area-inset-bottom,0px) + 30px);font-family:Georgia,"Times New Roman",serif}
+body.foto #revelado{display:flex}
+body.foto{background:#1b1714}
+#revelado h1{font-weight:400;font-size:30px;margin:0;letter-spacing:.02em}
+#revelado p{color:#a99d8c;font-size:15px;text-align:center;max-width:30ch;margin:8px 0 24px;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+.polar{background:#f6f2ea;padding:14px 14px 0;border-radius:3px;box-shadow:0 18px 50px rgba(0,0,0,.55);width:min(86vw,380px);transform:rotate(-1.5deg);transition:transform .6s cubic-bezier(.3,1.4,.4,1)}
+.polar.nueva{animation:sale 1s cubic-bezier(.2,.9,.3,1)}@keyframes sale{from{transform:translateY(-60vh) rotate(-8deg)}}
+.hueco{aspect-ratio:1;background:#2a2622;overflow:hidden;position:relative}
+.hueco img{width:100%;height:100%;object-fit:cover;opacity:0;display:block;-webkit-touch-callout:default;user-select:auto;-webkit-user-select:auto}
+.polar .pie{display:block;height:64px;line-height:64px;text-align:center;color:#4a4238;font:italic 19px "Bradley Hand","Segoe Print",cursive}
+.disp{margin-top:28px;display:flex;align-items:center;gap:10px;background:#efe6d8;color:#1b1714;border-radius:999px;padding:15px 26px;font:600 17px -apple-system,BlinkMacSystemFont,sans-serif;cursor:pointer}
+.disp svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.guarda{color:#a99d8c;font:14px -apple-system,BlinkMacSystemFont,sans-serif;margin-top:16px;min-height:20px;text-align:center}
+</style></head><body>
+<main>
+  <div class="hora" id="hora"></div>
+  <form id="f" action="https://www.google.com/search" method="get" role="search" autocomplete="off">
+    <label class="caja"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+    <input id="q" name="q" type="search" enterkeyhint="search" placeholder="Buscar en la web" aria-label="Buscar en la web" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
+  </form>
+  <nav class="atajos" aria-label="Accesos rápidos">
+    <a href="https://www.google.com/maps"><span>M</span>Mapas</a><a href="https://www.youtube.com"><span>Y</span>YouTube</a><a href="https://es.wikipedia.org"><span>W</span>Wikipedia</a><a href="https://www.google.com/search?q=el+tiempo"><span>T</span>Tiempo</a>
+  </nav>
+</main>
+<section id="revelado" aria-label="Revelado">
+  <h1>Revelado</h1>
+  <p id="instr">Haz una foto y mira cómo se revela, como en una cámara instantánea.</p>
+  <div class="polar" id="polar"><div class="hueco"><img id="img" alt="Tu foto"></div><span class="pie" id="pie"></span></div>
+  <label class="disp" id="disp"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.7-2.5h6.6L17 8h3v11H4Z"/><circle cx="12" cy="13.2" r="3.6"/></svg>Hacer una foto<input id="archivo" type="file" accept="image/*" capture="environment" hidden></label>
+  <div class="guarda" id="guarda"></div>
+</section>
+<div id="negro"></div>
+<script>
+(() => {
+'use strict';
+/* Página que abres en el móvil del espectador: https://tu-sitio/#CODIGO
+   Lo que escribe llega a la app del mago y, al buscar, abre Google de verdad.
+   El mago puede enviarle una búsqueda, una web o la pantalla negra. */
+const codigo = (location.hash.slice(1).match(/^[a-z0-9]{6,16}/) || [''])[0];
+if (/-foto$/.test(location.hash)) document.body.classList.add('foto');
+const SRV = 'https://ntfy.sh/';
+const q = document.getElementById('q'), f = document.getElementById('f');
+const hora = () => { const d = new Date(); document.getElementById('hora').textContent = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' }); };
+hora();
+const envia = (canal, datos) => { if (!codigo) return Promise.resolve(); try { return fetch(SRV+codigo+'-'+canal, { method:'POST', body:typeof datos === 'string' ? datos : JSON.stringify(datos), keepalive:true }).catch(() => {}); } catch (e) { return Promise.resolve(); } };
+const quien = () => /iPhone/.test(navigator.userAgent) ? 'iPhone' : /Android/.test(navigator.userAgent) ? 'Android' : /iPad/.test(navigator.userAgent) ? 'iPad' : 'Ordenador';
+const hola = () => envia('t', { tipo:'hola', dispositivo:quien(), modo:document.body.classList.contains('negro') ? 'negro' : document.body.classList.contains('foto') ? 'foto' : 'buscador' });
+let espera = 0, ultimo = '';
+q.addEventListener('input', () => { clearTimeout(espera); espera = setTimeout(() => { if (q.value !== ultimo) { ultimo = q.value; envia('t', { tipo:'tecleo', texto:q.value }); } }, 220); });
+const google = t => 'https://www.google.com/search?q='+encodeURIComponent(t);
+f.addEventListener('submit', e => {
+  e.preventDefault(); const t = q.value.trim(); if (!t) return; q.blur();
+  envia('t', { tipo:'buscado', texto:t }); const p = envia('a', t);
+  Promise.race([p, new Promise(r => setTimeout(r, 900))]).then(() => location.assign(google(t)));
+});
+function negro(si) { document.body.classList.toggle('negro', si); document.getElementById('tema').content = si ? '#000000' : '#ffffff'; hola(); }
+/* esquina superior izquierda: dos toques rápidos alternan la pantalla negra (para dejar el móvil boca abajo) */
+let ut = 0; addEventListener('pointerdown', e => { if (e.clientX < 80 && e.clientY < 80) { const n = Date.now(); if (n-ut < 450) { negro(!document.body.classList.contains('negro')); ut = 0; } else ut = n; } });
+function escribe(t, buscar) { negro(false); q.value = ''; let i = 0; const paso = () => { if (i < t.length) { q.value += t[i++]; setTimeout(paso, 90+Math.random()*110); } else if (buscar) setTimeout(() => location.assign(google(t)), 500); }; paso(); }
+function orden(m) {
+  let o; try { o = JSON.parse(m); } catch (e) { return; }
+  if (o.tipo === 'ir' && /^https:\/\//.test(o.url)) location.assign(o.url);
+  else if (o.tipo === 'negro') negro(true);
+  else if (o.tipo === 'buscador') negro(false);
+  else if (o.tipo === 'escribe') escribe(String(o.texto || ''), !!o.buscar);
+  else if (o.tipo === 'recarga') location.reload();
+  else if (o.tipo === 'ping') hola();
+  else if (o.tipo === 'foto') { negro(false); document.body.classList.add('foto'); hola(); }
+  else if (o.tipo === 'revela') tope = 1;
+}
+/* ---------- modo foto: hace la foto con su cámara; se revela despacio; a mitad llega la retocada ---------- */
+const img = document.getElementById('img'), archivo = document.getElementById('archivo');
+let p = 0, tope = 0, reloj = 0, limite = 0;
+function aplica() { img.style.opacity = (.06+.94*p).toFixed(3); img.style.filter = `sepia(${((1-p)*.9).toFixed(2)}) contrast(${(.55+.45*p).toFixed(2)}) brightness(${(.5+.5*p).toFixed(2)}) saturate(${(.35+.65*p).toFixed(2)}) blur(${((1-p)*8).toFixed(1)}px)`; }
+function revela() { clearInterval(reloj); reloj = setInterval(() => { if (p < tope) p = Math.min(tope, p+(tope > .2 ? .009 : .0025)); else if (tope >= 1) { clearInterval(reloj); document.getElementById('guarda').textContent = 'Mantén pulsada la foto para guardarla.'; } if (Date.now() > limite && tope < 1) tope = 1; aplica(); }, 100); }
+const reduceFoto = f => new Promise((ok, mal) => { const u = URL.createObjectURL(f), i = new Image(); i.onload = () => { const k = Math.min(1, 1600/Math.max(i.width, i.height)), c = document.createElement('canvas'); c.width = Math.round(i.width*k); c.height = Math.round(i.height*k); c.getContext('2d').drawImage(i, 0, 0, c.width, c.height); URL.revokeObjectURL(u); c.toBlob(b => ok(b), 'image/jpeg', .88); }; i.onerror = mal; i.src = u; });
+archivo.addEventListener('change', async () => {
+  const f = archivo.files[0]; if (!f) return; archivo.value = '';
+  const b = await reduceFoto(f).catch(() => f); img.src = URL.createObjectURL(b);
+  p = 0; tope = .14; limite = Date.now()+75000; aplica(); revela();
+  const pol = document.getElementById('polar'); pol.classList.remove('nueva'); void pol.offsetWidth; pol.classList.add('nueva');
+  document.getElementById('pie').textContent = new Date().toLocaleDateString('es-ES', { day:'numeric', month:'long' });
+  document.getElementById('instr').textContent = 'Revelando… no apartes la vista.'; document.getElementById('disp').hidden = true; document.getElementById('guarda').textContent = '';
+  if (codigo) fetch(SRV+codigo+'-f', { method:'PUT', body:b, headers:{ 'Filename':'foto.jpg' } }).catch(() => {});
+});
+function llegaRetocada(url) { const n = new Image(); n.onload = () => { img.src = url; tope = 1; document.getElementById('instr').textContent = 'Ya casi está…'; }; n.src = url; }
+if (codigo && window.EventSource) {
+  const es = new EventSource(SRV+codigo+'-b,'+codigo+'-g/sse');
+  es.onmessage = e => { try { const d = JSON.parse(e.data); if (d.event !== 'message') return; if (d.topic.endsWith('-g')) { if (d.attachment && /^https:\/\//.test(d.attachment.url)) llegaRetocada(d.attachment.url); } else orden(d.message); } catch (x) {} };
+  es.onopen = hola;
+}
+setInterval(hola, 15000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) hola(); });
+})();
+</script>
+</body></html>
